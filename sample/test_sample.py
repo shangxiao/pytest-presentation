@@ -30,8 +30,8 @@ class TodoItemTestCase(TestCase):
         )
 
         item = TodoItem.objects.get(description="Give a presentation on Pytest")
-        self.assertEqual(item.todo_list, todo_list)
-        self.assertFalse(item.is_done)
+        assert item.todo_list == todo_list
+        assert item.is_done is False
 
     def test_is_done_is_required(self):
         author = AuthorFactory()
@@ -59,6 +59,6 @@ class TodoListTestCase(TestCase):
 
         response = self.client.get(reverse("list_todo_lists"))
 
-        self.assertEqual(response.status_code, 200)
+        assert response.status_code == 200
         data = json.loads(response.json())
-        self.assertEqual(len(data), 1)
+        assert len(data) == 1
