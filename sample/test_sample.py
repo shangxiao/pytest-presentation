@@ -1,5 +1,6 @@
 import json
 
+import pytest
 from django.contrib.auth import get_user_model
 from django.db.utils import IntegrityError
 from django.test import TestCase
@@ -40,7 +41,7 @@ class TodoItemTestCase(TestCase):
             todo_list=todo_list, description="Give a presentation on Pytest"
         )
 
-        with self.assertRaises(IntegrityError):
+        with pytest.raises(IntegrityError):
             item.save()
 
 
