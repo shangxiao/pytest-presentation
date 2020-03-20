@@ -20,7 +20,8 @@ class TodoListFactory(DjangoModelFactory):
         model = TodoList
 
 
-class TodoItemTestCase(TestCase):
+@pytest.mark.django_db
+class TestTodoItem:
     def test_create_and_get_todo_item(self):
         author = AuthorFactory()
         todo_list = TodoListFactory(name="My List", author=author)
