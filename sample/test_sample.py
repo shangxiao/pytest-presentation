@@ -21,29 +21,30 @@ class TodoListFactory(DjangoModelFactory):
 
 
 @pytest.mark.django_db
-class TestTodoItem:
-    def test_create_and_get_todo_item(self):
-        author = AuthorFactory()
-        todo_list = TodoListFactory(name="My List", author=author)
-        TodoItem.objects.create(
-            todo_list=todo_list,
-            description="Give a presentation on Pytest",
-            is_done=False,
-        )
+def test_create_and_get_todo_item():
+    author = AuthorFactory()
+    todo_list = TodoListFactory(name="My List", author=author)
+    TodoItem.objects.create(
+        todo_list=todo_list,
+        description="Give a presentation on Pytest",
+        is_done=False,
+    )
 
-        item = TodoItem.objects.get(description="Give a presentation on Pytest")
-        assert item.todo_list == todo_list
-        assert item.is_done is False
+    item = TodoItem.objects.get(description="Give a presentation on Pytest")
+    assert item.todo_list == todo_list
+    assert item.is_done is False
 
-    def test_is_done_is_required(self):
-        author = AuthorFactory()
-        todo_list = TodoListFactory(name="My List", author=author)
-        item = TodoItem(
-            todo_list=todo_list, description="Give a presentation on Pytest"
-        )
 
-        with pytest.raises(IntegrityError):
-            item.save()
+@pytest.mark.django_db
+def test_is_done_is_required():
+    author = AuthorFactory()
+    todo_list = TodoListFactory(name="My List", author=author)
+    item = TodoItem(
+        todo_list=todo_list, description="Give a presentation on Pytest"
+    )
+
+    with pytest.raises(IntegrityError):
+        item.save()
 
 
 class TodoListTestCase(TestCase):
