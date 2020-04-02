@@ -23,8 +23,12 @@ class TodoListFactory(DjangoModelFactory):
         model = TodoList
 
 
-def test_create_and_get_todo_item():
-    author = AuthorFactory()
+@pytest.fixture
+def author():
+    return AuthorFactory()
+
+
+def test_create_and_get_todo_item(author):
     todo_list = TodoListFactory(name="My List", author=author)
     TodoItem.objects.create(
         todo_list=todo_list,
@@ -37,8 +41,7 @@ def test_create_and_get_todo_item():
     assert item.is_done is False
 
 
-def test_is_done_is_required():
-    author = AuthorFactory()
+def test_is_done_is_required(author):
     todo_list = TodoListFactory(name="My List", author=author)
     item = TodoItem(
         todo_list=todo_list, description="Give a presentation on Pytest"
