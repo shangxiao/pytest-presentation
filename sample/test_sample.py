@@ -10,6 +10,9 @@ from factory.django import DjangoModelFactory
 from sample.models import Author, TodoItem, TodoList
 
 
+pytestmark = pytest.mark.django_db
+
+
 class AuthorFactory(DjangoModelFactory):
     class Meta:
         model = Author
@@ -20,7 +23,6 @@ class TodoListFactory(DjangoModelFactory):
         model = TodoList
 
 
-@pytest.mark.django_db
 def test_create_and_get_todo_item():
     author = AuthorFactory()
     todo_list = TodoListFactory(name="My List", author=author)
@@ -35,7 +37,6 @@ def test_create_and_get_todo_item():
     assert item.is_done is False
 
 
-@pytest.mark.django_db
 def test_is_done_is_required():
     author = AuthorFactory()
     todo_list = TodoListFactory(name="My List", author=author)
