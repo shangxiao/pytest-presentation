@@ -28,8 +28,12 @@ def author():
     return AuthorFactory()
 
 
-def test_create_and_get_todo_item(author):
-    todo_list = TodoListFactory(name="My List", author=author)
+@pytest.fixture
+def todo_list(author):
+    return TodoListFactory(name="My List", author=author)
+
+
+def test_create_and_get_todo_item(todo_list):
     TodoItem.objects.create(
         todo_list=todo_list,
         description="Give a presentation on Pytest",
@@ -41,8 +45,7 @@ def test_create_and_get_todo_item(author):
     assert item.is_done is False
 
 
-def test_is_done_is_required(author):
-    todo_list = TodoListFactory(name="My List", author=author)
+def test_is_done_is_required(todo_list):
     item = TodoItem(
         todo_list=todo_list, description="Give a presentation on Pytest"
     )
